@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+</head>
+<body>
+<input id="msg" />
+<button id="sendBtn">發送</button>
+<div id="history"></div>
+
+<script>
+    const msg = document.getElementById('msg');
+    const sendBtn = document.getElementById('sendBtn');
+    const history = document.getElementById('history');
+
+    const ws = new WebSocket('/ws-chat');
+    ws.addEventListener('message', msg => {
+        const newMsg = document.createElement('p');
+        newMsg.innerText = msg.data;
+        history.appendChild(newMsg);
+    });
+    sendBtn.addEventListener('click', () => {
+        ws.send(msg.value);
+        msg.value = '';
+    });
+</script>
+</body>
+</html>
