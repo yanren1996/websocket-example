@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket</title>
+</head>
+<body>
+<h1>hello world!</h1>
+<script>
+    const ws = new WebSocket("/ws");
+    ws.addEventListener("message", msg => console.log(msg.data));
+</script>
+</body>
+</html>
