@@ -31,7 +31,12 @@ public class ChatHandler extends AbstractWebSocketHandler {
         // 每個線上名單的人互相看的到各自發送的訊息
         for (WebSocketSession item : sessions) {
             // 因為這個實作是匿名的，先借sessionID的最後兩碼當作名字
-            item.sendMessage(new TextMessage(session.getId().substring(34) + "說了" + message.getPayload()));
+            item.sendMessage(new TextMessage(getUserName(session) + "說了" + message.getPayload()));
         }
+    }
+
+    // 我們學學自己實現控制反轉
+    protected String getUserName(WebSocketSession session) {
+        return session.getId().substring(34);
     }
 }
