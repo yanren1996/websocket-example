@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>創建帳號</p>
+<label>帳號<input id="username"></label><br>
+<label>密碼<input id="password" type="password"></label>
+<button id="createBtn">建立</button>
+
+<script>
+    const username = document.getElementById("username");
+    const password = document.getElementById("password");
+    const createBtn = document.getElementById("createBtn");
+
+    // 三行註解為spring security預設csrf保護，若在SecurityConfig將註冊路徑的csrf保護忽略就可以不寫
+    createBtn.addEventListener("click", async e => {
+        // const token = await fetch("user/csrf");
+        // const tokenJson = await token.json();
+
+        const res = await fetch("/user/signup", {
+            method: "POST",
+            headers: new Headers({
+                "Content-Type": "application/json",
+                // [tokenJson.headerName]: tokenJson.token,
+            }),
+            body: JSON.stringify({username: username.value, password: password.value})
+        });
+        const text = await res.text();
+        alert(text);
+    });
+</script>
+</body>
+</html>

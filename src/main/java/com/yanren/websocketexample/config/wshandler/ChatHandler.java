@@ -1,4 +1,4 @@
-package com.yanren.websocketexample.config;
+package com.yanren.websocketexample.config.wshandler;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
@@ -12,7 +12,7 @@ import java.util.Set;
 @Component("chatHandler")
 public class ChatHandler extends AbstractWebSocketHandler {
     // 線上名單
-    private Set<WebSocketSession> sessions = new HashSet<>();
+    protected Set<WebSocketSession> sessions = new HashSet<>();
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {

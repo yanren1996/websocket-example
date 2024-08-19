@@ -1,4 +1,4 @@
-package com.yanren.websocketexample.config;
+package com.yanren.websocketexample.config.wshandler;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
