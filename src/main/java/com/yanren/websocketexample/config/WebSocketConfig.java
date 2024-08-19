@@ -24,10 +24,15 @@ public class WebSocketConfig implements WebSocketConfigurer {
     @Qualifier("authHandler")
     WebSocketHandler authHandler;
 
+    @Autowired
+    @Qualifier("aiHandler")
+    WebSocketHandler aiHandler;
+
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(myHandler, "/ws");
         registry.addHandler(chatHandler, "/ws-chat");
         registry.addHandler(authHandler, "/ws-auth-chat");
+        registry.addHandler(aiHandler, "/ws-ai");
     }
 }
