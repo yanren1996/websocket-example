@@ -27,7 +27,7 @@ public class SecurityConfig {
                 // 所有請求皆通行，
                 .authorizeHttpRequests(auth -> {
                     auth
-                            .requestMatchers("auth-chat.html").authenticated()
+                            .requestMatchers("chat-auth.html").authenticated()
 //                            .requestMatchers(PathRequest.toH2Console()).permitAll()
                             .anyRequest().permitAll()
 //                            .anyRequest().authenticated()
