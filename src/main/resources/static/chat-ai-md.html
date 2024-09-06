@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--    <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">-->
+    <!--        <link rel="stylesheet" href="https://unpkg.com/highlight.js@11.10.0/styles/intellij-light.min.css">-->
+    <!--    <link rel="stylesheet" href="https://unpkg.com/highlight.js@11.10.0/styles/idea.min.css">-->
+    <!--    <link rel="stylesheet" href="https://unpkg.com/highlight.js@11.10.0/styles/github-dark.min.css">-->
+    <link rel="stylesheet" href="https://unpkg.com/highlight.js@11.10.0/styles/github-dark-dimmed.min.css">
+    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+</head>
+<body>
+<textarea id="msg" cols="30" rows="3"></textarea>
+<button id="sendBtn">發送</button>
+<div id="history"></div>
+
+<script type="module">
+    import {marked} from 'https://unpkg.com/marked@14.1.1/lib/marked.esm.js';
+
+    const msg = document.getElementById('msg');
+    const sendBtn = document.getElementById('sendBtn');
+    const history = document.getElementById('history');
+
+    sendBtn.addEventListener('click', () => {
+        // 清空輸入框
+        const question = msg.value;
+        msg.value = '';
+        // 顯示用戶訊息
+        const p = document.createElement('p');
+        p.innerText = question;
+        history.appendChild(p);
+        // 新增一個aiMsg的div
+        const aiDiv = document.createElement('div');
+        history.appendChild(aiDiv);
+        // 占存ai未編碼訊息
+        let aiMsg = '';
+        // 新增連線
+        const ws = new WebSocket("/ws-ai");
+        ws.addEventListener('open', () => {
+            ws.send(question);
+        })
+        ws.addEventListener("message", msg => {
+            // 解析JSON
+            const dto = JSON.parse(msg.data);
+            if (dto.finishReason !== "STOP") {
+                aiMsg += dto.content;
+                aiDiv.innerHTML = marked.parse(aiMsg);
+                hljs.highlightAll();// 代碼高亮
+            } else {
+                ws.close();
+            }
+        });
+    });
+</script>
+</body>
+</html>
